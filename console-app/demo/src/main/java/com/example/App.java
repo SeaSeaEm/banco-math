@@ -97,7 +97,7 @@ public class App {
         double withdrawValue = 0;
         boolean validOperation = false;
 
-        while (!validOperation && acc != null) {
+        while (!validOperation) {
             System.out.println("Digite o valor a ser sacado");
             withdrawValue = scanner.nextDouble();
 
