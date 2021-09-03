@@ -3,9 +3,8 @@ package com.example;
 import java.util.Scanner;
 
 public class App {
-    private static int ACC_COUNT = 10;
-    private static Account[] accs = new Account[ACC_COUNT];
-    private Scanner sc = new Scanner(System.in);
+    protected static int ACC_COUNT = 10;
+    protected static Account[] accs = new Account[ACC_COUNT];
 
     public static void main(String[] args) {
         App app = new App();
@@ -27,7 +26,7 @@ public class App {
         return;
     }
 
-    private void handleMenuOption(int menuOption) {
+    protected void handleMenuOption(int menuOption) {
         switch (menuOption) {
             case 1: // Saque
                 withdraw();
@@ -36,7 +35,8 @@ public class App {
                 deposit();
                 break;
             case 3: // Consultar Saldo
-                Account acc = getAccount(getAccountInput());
+                Scanner scanner = new Scanner(System.in);
+                Account acc = getAccount(getAccountInput(scanner));
 
                 if (acc == null) {
                     System.out.println("Conta nao existe");
@@ -58,8 +58,9 @@ public class App {
         }
     }
 
-    private void deposit() {
-        Account acc = getAccount(getAccountInput());
+    protected void deposit() {
+        Scanner scanner = new Scanner(System.in);
+        Account acc = getAccount(getAccountInput(scanner));
 
         if (acc == null) {
             System.out.println("Conta nao existe");
@@ -71,7 +72,8 @@ public class App {
 
         while (!validOperation && acc != null) {
             System.out.println(String.format("Digite o valor a ser depositado"));
-            depositValue = sc.nextDouble();
+            
+            depositValue = Double.parseDouble(scanner.nextLine());
 
             if (depositValue <= 0)
                 System.out.println("Valor invalido");
@@ -83,8 +85,9 @@ public class App {
         System.out.println(String.format("Saldo atual: %.2f", acc.getBalance()));
     }
 
-    private void withdraw() {
-        Account acc = getAccount(getAccountInput());
+    protected void withdraw() {
+        Scanner scanner = new Scanner(System.in);
+        Account acc = getAccount(getAccountInput(scanner));
 
         if (acc == null) {
             System.out.println("Conta nao existe");
@@ -96,7 +99,7 @@ public class App {
 
         while (!validOperation && acc != null) {
             System.out.println("Digite o valor a ser sacado");
-            withdrawValue = sc.nextDouble();
+            withdrawValue = scanner.nextDouble();
 
             if (withdrawValue == 0)
                 System.out.println("Digite um valor valido");
@@ -112,7 +115,7 @@ public class App {
         }
     }
 
-    private Account getAccount(int accNumber) {
+    protected Account getAccount(int accNumber) {
         if (accNumber <= 0)
             return null;
 
@@ -125,16 +128,17 @@ public class App {
         return null;
     }
 
-    private int getAccountInput() {
+    protected int getAccountInput(Scanner scanner) {
         int accNumber = 0;
 
         System.out.println(String.format("\nDigite a conta"));
-        accNumber = sc.nextInt();
+        accNumber = Integer.parseInt(scanner.nextLine());
 
         return accNumber;
     }
 
-    private int displayMenu() {
+    protected int displayMenu() {
+        Scanner scanner = new Scanner(System.in);
         int i = 1;
 
         System.out.println(String.format("%d - Sacar", i++));
@@ -143,6 +147,10 @@ public class App {
         System.out.println(String.format("%d - Listar Contas", i++));
         System.out.println(String.format("%d - Sair", i));
 
-        return sc.nextInt();
+        int option = 0;
+        option = scanner.nextInt();
+        scanner.close();
+
+        return option;
     }
 }
