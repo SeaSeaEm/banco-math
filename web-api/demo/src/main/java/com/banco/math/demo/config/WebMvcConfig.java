@@ -1,4 +1,4 @@
-package main.java.com.example.demo.config;
+package com.banco.math.demo.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
